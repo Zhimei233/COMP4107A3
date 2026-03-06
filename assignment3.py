@@ -1,4 +1,3 @@
-# Name this file assignment3.py when you submit
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,7 +12,6 @@ class UWaveGestureLibraryDataset(torch.utils.data.Dataset):
     # dataset_filepath is the full path to a file containing data
     super().__init__()
     self.samples = []   
-    # list of (x_tensor, y_tensor)
 
     with open(dataset_filepath, 'r') as fh:
         for line in fh:
@@ -44,9 +42,9 @@ class UWaveGestureLibraryDataset(torch.utils.data.Dataset):
 
   def __getitem__(self, index):
     # index is the index of the sample to be retrieved
-    x, y = self.samples[index]
     # x is one sample of data
     # y is the label associated with the sample
+    x, y = self.samples[index]
     return x, y
 
 
@@ -54,7 +52,6 @@ class UWaveGestureLibraryDataset(torch.utils.data.Dataset):
 def u_wave_gesture_library_cnn_model(training_data_filepath):
   # training_data_filepath is the full path to a file containing the training data
   
-  # Load dataset
   dataset = UWaveGestureLibraryDataset(training_data_filepath)
 
   # Split dataset, 80% train, 20% validation
@@ -65,7 +62,6 @@ def u_wave_gesture_library_cnn_model(training_data_filepath):
   train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
   val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
-  # CNN Model
   class CNNModel(nn.Module):
     def __init__(self):
       super().__init__()
@@ -96,13 +92,11 @@ def u_wave_gesture_library_cnn_model(training_data_filepath):
 
   model = CNNModel()
 
-  # Loss and optimizer
   criterion = nn.CrossEntropyLoss()
   optimizer = optim.Adam(model.parameters(), lr=0.001)
 
   epochs = 10
 
-  # Training
   for epoch in range(epochs):
     model.train()
 
@@ -117,7 +111,6 @@ def u_wave_gesture_library_cnn_model(training_data_filepath):
       loss.backward()
       optimizer.step()
 
-  # Evaluation function
   def evaluate(loader):
     model.eval()
     correct = 0
@@ -149,7 +142,6 @@ def u_wave_gesture_library_cnn_model(training_data_filepath):
 def u_wave_gesture_library_rnn_model(training_data_filepath):
   # training_data_filepath is the full path to a file containing the training data
   
-  # Load dataset
   dataset = UWaveGestureLibraryDataset(training_data_filepath)
 
   # Split dataset, 80% train, 20% validation
@@ -160,7 +152,6 @@ def u_wave_gesture_library_rnn_model(training_data_filepath):
   train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
   val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
-  # RNN Model
   class RNNModel(nn.Module):
     def __init__(self):
       super().__init__()
@@ -213,7 +204,6 @@ def u_wave_gesture_library_rnn_model(training_data_filepath):
       loss.backward()
       optimizer.step()
 
-  # Evaluation function
   def evaluate(loader):
     model.eval()
     correct = 0
